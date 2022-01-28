@@ -63,8 +63,6 @@ import { getContract } from '../functions/contract'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { useMemo } from 'react'
 
-const UNI_FACTORY_ADDRESS = '0xCC738D2fDE18fe66773b84c8E6C869aB233766D1'
-
 export function useEIP2612Contract(tokenAddress?: string): Contract | null {
   return useContract(tokenAddress, EIP_2612_ABI, false)
 }

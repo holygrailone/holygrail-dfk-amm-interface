@@ -109,92 +109,117 @@ export default function Remove() {
   const routerContract = useRouterContract()
 
   // allowance handling
-  const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
+  // const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
+
+  const { gatherPermitSignature, signatureData } = useV2LiquidityTokenPermit(
+    parsedAmounts[Field.LIQUIDITY],
+    '0x24ad62502d1C652Cc7684081169D04896aC20f30'
+  )
+
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.LIQUIDITY],
     '0x24ad62502d1C652Cc7684081169D04896aC20f30'
   )
 
-  const isArgentWallet = useIsArgentWallet()
+  // const isArgentWallet = useIsArgentWallet()
 
   async function onAttemptToApprove() {
     if (!pairContract || !pair || !library || !deadline) throw new Error('missing dependencies')
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    if (isArgentWallet) {
-      return approveCallback()
-    }
-
-    if (chainId === ChainId.HARMONY) {
-      const nonce = await pairContract.nonces(account)
-
-      const EIP712Domain = [
-        { name: 'name', type: 'string' },
-        { name: 'version', type: 'string' },
-        { name: 'chainId', type: 'uint256' },
-        { name: 'verifyingContract', type: 'address' },
-      ]
-      const domain = {
-        name: 'HolyGrail DFK LP Token',
-        version: '1',
-        chainId: chainId,
-        verifyingContract: pair.liquidityToken.address,
+    if (chainId !== ChainId.HARMONY && gatherPermitSignature) {
+      try {
+        await gatherPermitSignature()
+      } catch (error) {
+        // try to approve if gatherPermitSignature failed for any reason other than the user rejecting it
+        if (error?.code !== 4001) {
+          await approveCallback()
+        }
       }
-      const Permit = [
-        { name: 'owner', type: 'address' },
-        { name: 'spender', type: 'address' },
-        { name: 'value', type: 'uint256' },
-        { name: 'nonce', type: 'uint256' },
-        { name: 'deadline', type: 'uint256' },
-      ]
-      const message = {
-        owner: account,
-        spender: '0x24ad62502d1C652Cc7684081169D04896aC20f30',
-        value: liquidityAmount.quotient.toString(),
-        nonce: nonce.toHexString(),
-        deadline: deadline.toNumber(),
-      }
-      const data = JSON.stringify({
-        types: {
-          EIP712Domain,
-          Permit,
-        },
-        domain,
-        primaryType: 'Permit',
-        message,
-      })
-
-      library
-        .send('eth_signTypedData_v4', [account, data])
-        .then(splitSignature)
-        .then((signature) => {
-          setSignatureData({
-            v: signature.v,
-            r: signature.r,
-            s: signature.s,
-            deadline: deadline.toNumber(),
-          })
-        })
-        .catch((error) => {
-          // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-          if (error?.code !== 4001) {
-            approveCallback()
-          }
-        })
-      //   try {
-      //     await gatherPermitSignature()
-      //   } catch (error) {
-      //     // try to approve if gatherPermitSignature failed for any reason other than the user rejecting it
-      //     if (error?.code !== 4001) {
-      //       await approveCallback()
-      //     }
-      //   }
     } else {
       await approveCallback()
     }
-    // }
   }
+
+  // async function onAttemptToApprove() {
+  //   if (!pairContract || !pair || !library || !deadline) throw new Error('missing dependencies')
+  //   const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
+  //   if (!liquidityAmount) throw new Error('missing liquidity amount')
+
+  //   if (isArgentWallet) {
+  //     return approveCallback()
+  //   }
+
+  //   if (chainId === ChainId.HARMONY) {
+  //     const nonce = await pairContract.nonces(account)
+
+  //     const EIP712Domain = [
+  //       { name: 'name', type: 'string' },
+  //       { name: 'version', type: 'string' },
+  //       { name: 'chainId', type: 'uint256' },
+  //       { name: 'verifyingContract', type: 'address' },
+  //     ]
+  //     const domain = {
+  //       name: 'HolyGrail DFK LP Token',
+  //       version: '1',
+  //       chainId: chainId,
+  //       verifyingContract: pair.liquidityToken.address,
+  //     }
+  //     const Permit = [
+  //       { name: 'owner', type: 'address' },
+  //       { name: 'spender', type: 'address' },
+  //       { name: 'value', type: 'uint256' },
+  //       { name: 'nonce', type: 'uint256' },
+  //       { name: 'deadline', type: 'uint256' },
+  //     ]
+  //     const message = {
+  //       owner: account,
+  //       spender: '0x24ad62502d1C652Cc7684081169D04896aC20f30',
+  //       value: liquidityAmount.quotient.toString(),
+  //       nonce: nonce.toHexString(),
+  //       deadline: deadline.toNumber(),
+  //     }
+  //     const data = JSON.stringify({
+  //       types: {
+  //         EIP712Domain,
+  //         Permit,
+  //       },
+  //       domain,
+  //       primaryType: 'Permit',
+  //       message,
+  //     })
+
+  //     library
+  //       .send('eth_signTypedData_v4', [account, data])
+  //       .then(splitSignature)
+  //       .then((signature) => {
+  //         setSignatureData({
+  //           v: signature.v,
+  //           r: signature.r,
+  //           s: signature.s,
+  //           deadline: deadline.toNumber(),
+  //         })
+  //       })
+  //       .catch((error) => {
+  //         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
+  //         if (error?.code !== 4001) {
+  //           approveCallback()
+  //         }
+  //       })
+  //     //   try {
+  //     //     await gatherPermitSignature()
+  //     //   } catch (error) {
+  //     //     // try to approve if gatherPermitSignature failed for any reason other than the user rejecting it
+  //     //     if (error?.code !== 4001) {
+  //     //       await approveCallback()
+  //     //     }
+  //     //   }
+  //   } else {
+  //     await approveCallback()
+  //   }
+  //   // }
+  // }
 
   // wrapped onUserInput to clear signatures
   const onUserInput = useCallback(
