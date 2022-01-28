@@ -16,6 +16,11 @@ const items = (i18n: I18n) => [
     href: 'https://explorer.harmony.one/address/0x8d760497554eecc3b9036fb0364156ef2f0d02bc',
   },
   {
+    name: 'Charts of HLY',
+    description: 'Chart of HLY/ONE',
+    href: 'https://dexscreener.com/harmony/0x3e478ed607f79a50f286a5a6ce52a049897291b2',
+  },
+  {
     name: 'Harmony ONE',
     description: 'Learn more about the Harmony Network.',
     href: 'https://harmony.one',
