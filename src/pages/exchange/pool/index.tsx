@@ -141,7 +141,7 @@ export default function Pool() {
           ) : (
             <Empty className="flex text-lg text-center text-low-emphesis">
               <div className="px-4 py-2">
-                No liquidity was found. It will not show here, if it is in use in the Fields!
+                No liquidity was found. It will not show here, if it is in use in the Grail Quests!
               </div>
             </Empty>
           )}

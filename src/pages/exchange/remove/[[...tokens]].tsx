@@ -112,7 +112,7 @@ export default function Remove() {
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.LIQUIDITY],
-    '0x8C9E059a729C17fB294cd782eB66Df3871D29173'
+    '0x24ad62502d1C652Cc7684081169D04896aC20f30'
   )
 
   const isArgentWallet = useIsArgentWallet()
@@ -150,7 +150,7 @@ export default function Remove() {
       ]
       const message = {
         owner: account,
-        spender: '0x8C9E059a729C17fB294cd782eB66Df3871D29173',
+        spender: '0x24ad62502d1C652Cc7684081169D04896aC20f30',
         value: liquidityAmount.quotient.toString(),
         nonce: nonce.toHexString(),
         deadline: deadline.toNumber(),
