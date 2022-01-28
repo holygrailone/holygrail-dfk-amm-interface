@@ -1,6 +1,7 @@
 const BA_LIST = 'https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json'
 
-import HGLIST from '../constants/token-lists/holygrail.tokenlist.json'
+const HGLIST =
+  'https://raw.githubusercontent.com/holygrailone/holygrail-dfk-amm-interface/main/src/constants/token-lists/holygrail.tokenlist.json'
 
 // used to mark unsupported tokens, these are hosted lists of unsupported tokens
 /**
