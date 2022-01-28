@@ -79,7 +79,7 @@ export const HARMONY: { [key: string]: Token } = {
   WBTC: new Token(ChainId.HARMONY, '0x3095c7557bCb296ccc6e363DE01b760bA031F2d9', 8, 'WBTC', 'Wrapped Bitcoin'),
   WETH: new Token(ChainId.HARMONY, '0x6983D1E6DEf3690C4d616b13597A09e6193EA013', 18, 'WETH', 'Wrapped Ether'),
   JEWEL: new Token(ChainId.HARMONY, '0x72Cb10C6bfA5624dD07Ef608027E366bd690048F', 18, 'JEWEL', 'DefiKingdoms'),
-  HLY: new Token(ChainId.HARMONY, '0x8d760497554eecc3b9036fb0364156ef2f0d02bc', 18, 'HLY', 'HolyGrail'),
+  HLY: new Token(ChainId.HARMONY, '0x8D760497554eecC3B9036fb0364156ef2F0D02BC', 18, 'HLY', 'HolyGrail'),
 }
 
 export const XDAI: { [key: string]: Token } = {
@@ -273,7 +273,7 @@ export const WETH9_EXTENDED: { [chainId: number]: Token } = {
 
   [ChainId.HARMONY]: new Token(
     ChainId.HARMONY,
-    '0xcf664087a5bb0237a0bad6742852ec6c8d69a27a',
+    '0xcF664087a5bB0237a0BAd6742852ec6c8d69A27a',
     18,
     'WONE',
     'Wrapped Harmony'
