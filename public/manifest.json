@@ -1,0 +1,23 @@
+{
+  "name": "HolyGrail AMM",
+  "short_name": "HolyGrail AMM",
+  "lang": "en",
+  "description": "Swap, yield, buy, sell, on one community driven ecosystem",
+  "background_color": "#150404",
+  "theme_color": "#f23a3a",
+  "dir": "ltr",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "splash_pages": null,
+  "prefer_related_applications": false,
+  "iconPath": "hly.png",
+  "icons": [
+    {
+      "src": "/hly.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

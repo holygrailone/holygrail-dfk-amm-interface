@@ -1,0 +1,163 @@
+@tailwind base;
+
+@import '@fontsource/dm-sans/index.css';
+@import 'react-virtualized/styles.css';
+@import 'rc-slider/assets/index.css';
+
+@import './variables.css';
+
+@tailwind components;
+
+@tailwind utilities;
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+  touch-action: manipulation;
+  font-feature-settings: 'case' 1, 'rlig' 1, 'calt' 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #2F0006;
+  color: var(--text-primary);
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  background-image: url('/holygrailbg.jpg') !important;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  width: 13px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(224, 177, 19);
+  border-radius: 20px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: rgb(12, 14, 10);
+  border-image: initial;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgb(12, 14, 10);
+}
+
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+button:focus {
+  outline: none;
+}
+
+input:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.striped-background {
+  background: repeating-linear-gradient(45deg, #211414, #211414 10px, #150404 10px, #150404 20px);
+}
+
+.bg-dark-700 {
+  background-color: rgb(56, 41, 19) !important;
+}
+
+.bg-dark-800 {
+  background-color: rgb(51, 44, 34) !important;
+}
+
+.bg-dark-800:hover {
+  background-color: rgb(51, 44, 34) !important;
+}
+
+.hover\:bg-dark-800:hover {
+  background-color: rgb(51, 44, 34) !important;
+}
+
+.bg-dark-900 {
+  background-color: rgb(31, 27, 21) !important;
+}
+
+.bg-dark-1000 {
+  background-color: rgb(21 4 4 / 69%) !important;
+}
+
+.swapbg {
+  background-color: #ead302 !important;
+}
+
+.bg-red {
+  background-color: #8A1310 !important;
+}
+
+.bg-purple {
+  background-color: #80770063 !important;
+}
+
+.to-red {
+  --tw-gradient-to: #8A1310 !important;
+}
+
+.to-orange {
+  --tw-gradient-to: #8a5510 !important;
+}
+
+*::-webkit-scrollbar {
+  width: 9px;               /* width of the entire scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: rgb(12, 14, 10);        /* color of the tracking area */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(224, 177, 19);
+  border-radius: 20px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: rgb(12, 14, 10);
+  border-image: initial;
+}
+
+/* *::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track-piece:start {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAQAAAAD+Fb1AAAADklEQVR42mNkgAJG3AwAAH4ABWjFc8IAAAAASUVORK5CYII=) repeat-y !important;
+}
+
+::-webkit-scrollbar-track-piece:end {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAQAAAAD+Fb1AAAADklEQVR42mNkgAJG3AwAAH4ABWjFc8IAAAAASUVORK5CYII=) repeat-y !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 3px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  border-radius: 9999px;
+  background-color: #BFBFBF;
+} */
