@@ -295,8 +295,8 @@ export default function WalletModal({
           )}
           {walletView !== WALLET_VIEWS.PENDING && (
             <div className="flex flex-col text-center">
-              <div className="text-secondary">{i18n._(t`New to Fantom?`)}</div>
-              <ExternalLink href="https://fantom.foundation/" color="blue">
+              <div className="text-secondary">{i18n._(t`New to Harmony?`)}</div>
+              <ExternalLink href="https://harmony.one/" color="blue">
                 {i18n._(t`Learn more about wallets`)}
               </ExternalLink>
             </div>

@@ -330,8 +330,8 @@ export default function WalletStandalone({
           )}
           {walletView !== WALLET_VIEWS.PENDING && (
             <Blurb>
-              <span>New to Fantom? &nbsp;</span>{' '}
-              <ExternalLink href="https://ethereum.org/wallets/">Learn more about wallets</ExternalLink>
+              <span>New to Harmony? &nbsp;</span>{' '}
+              <ExternalLink href="https://harmony.one">Learn more about wallets</ExternalLink>
             </Blurb>
           )}
         </ContentWrapper>
