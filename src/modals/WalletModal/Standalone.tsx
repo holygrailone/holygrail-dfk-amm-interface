@@ -330,7 +330,7 @@ export default function WalletStandalone({
           )}
           {walletView !== WALLET_VIEWS.PENDING && (
             <Blurb>
-              <span>New to Harmony? &nbsp;</span>{' '}
+              <span>New to Harmony?</span>{' '}
               <ExternalLink href="https://harmony.one">Learn more about wallets</ExternalLink>
             </Blurb>
           )}
