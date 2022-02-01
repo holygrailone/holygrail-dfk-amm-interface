@@ -15,6 +15,7 @@ import { t } from '@lingui/macro'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { useCurrencyBalance } from '../../state/wallet/hooks'
 import { useLingui } from '@lingui/react'
+import { makeStyles } from '@mui/styles'
 
 interface CurrencyInputPanelProps {
   value?: string
@@ -35,9 +36,18 @@ interface CurrencyInputPanelProps {
   id: string
   showCommonBases?: boolean
   renderBalance?: (amount: CurrencyAmount<Currency>) => ReactNode
-  locked?: boolean
-  customBalanceText?: string
 }
+
+const useLocalStyles = makeStyles(() => ({
+  swapGrid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 2fr',
+    gridGap: 8,
+  },
+  fullWidth: {
+    width: '100%',
+  },
+}))
 
 export default function CurrencyInputPanel({
   value,
@@ -58,9 +68,8 @@ export default function CurrencyInputPanel({
   hideBalance = false,
   pair = null, // used for double token logo
   hideInput = false,
-  locked = false,
-  customBalanceText,
 }: CurrencyInputPanelProps) {
+  const classes = useLocalStyles()
   const showHalfButton = showMaxButton
   const { i18n } = useLingui()
   const [modalOpen, setModalOpen] = useState(false)
@@ -70,11 +79,10 @@ export default function CurrencyInputPanel({
   const handleDismissSearch = useCallback(() => {
     setModalOpen(false)
   }, [setModalOpen])
-
   return (
     <div id={id} className={classNames(hideInput ? 'p-4' : 'p-5', 'rounded bg-dark-800')}>
-      <div className="flex flex-col justify-between space-y-3 sm:space-y-0 sm:flex-row">
-        <div className={classNames('w-full sm:w-2/5')}>
+      <div className={classNames(classes.swapGrid, 'flex flex-col justify-between space-y-3 sm:space-y-0 sm:flex-row')}>
+        <div className={classNames(classes.fullWidth, 'w-full sm:w-2/5')}>
           <button
             type="button"
             className={classNames(
@@ -135,15 +143,17 @@ export default function CurrencyInputPanel({
             </div>
           </button>
         </div>
+
         {!hideInput && (
           <div
             className={classNames(
+              classes.fullWidth,
               'flex items-center w-full space-x-3 rounded bg-dark-900 focus:bg-dark-700 p-3 sm:w-3/5'
               // showMaxButton && selectedCurrencyBalance && 'px-3'
             )}
           >
             <>
-              {showMaxButton && selectedCurrencyBalance && (
+              {/* {showMaxButton && selectedCurrencyBalance && (
                 <Button
                   onClick={onMax}
                   size="xs"
@@ -160,7 +170,7 @@ export default function CurrencyInputPanel({
                 >
                   {i18n._(t`50%`)}
                 </Button>
-              )}
+              )} */}
               <Input.Numeric
                 id="token-amount-input"
                 value={value}
@@ -186,6 +196,7 @@ export default function CurrencyInputPanel({
           </div>
         )}
       </div>
+
       {!disableCurrencySelect && onCurrencySelect && (
         <CurrencySearchModal
           isOpen={modalOpen}

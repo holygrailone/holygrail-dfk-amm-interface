@@ -78,8 +78,19 @@ import { warningSeverity } from '../../../functions/prices'
 import { DarkCard, DarkBlueCard } from '../../../components/CardLegacy'
 
 import ReactPlaceholder from 'react-placeholder'
+import { makeStyles } from '@mui/styles'
+
+const useLocalStyles = makeStyles(() => ({
+  buttonGrid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr 1fr',
+    gridGap: 32,
+    width: '100%',
+  },
+}))
 
 export default function Swap() {
+  const classes = useLocalStyles()
   const { i18n } = useLingui()
 
   const loadedUrlParams = useDefaultsFromURLSearch()
@@ -406,9 +417,13 @@ export default function Swap() {
     maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.toExact())
   }, [maxInputAmount, onUserInput])
 
-  const handleHalfInput = useCallback(() => {
-    maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.divide(2).toExact())
-  }, [maxInputAmount, onUserInput])
+  // hack until figure out how sushiswap .multiply() works
+  const handleFractionalInput = useCallback(
+    (multiplyBy: number, divideBy: number) => {
+      maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.multiply(multiplyBy).divide(divideBy).toExact())
+    },
+    [maxInputAmount, onUserInput]
+  )
 
   const handleOutputSelect = useCallback(
     (outputCurrency) => onCurrencySelection(Field.OUTPUT, outputCurrency),
@@ -496,7 +511,7 @@ export default function Swap() {
                   currency={currencies[Field.INPUT]}
                   onUserInput={handleTypeInput}
                   onMax={handleMaxInput}
-                  onHalf={handleHalfInput}
+                  onHalf={() => handleFractionalInput(1, 2)}
                   fiatValue={fiatValueInput ?? undefined}
                   onCurrencySelect={handleInputSelect}
                   otherCurrency={currencies[Field.OUTPUT]}
@@ -584,6 +599,40 @@ export default function Swap() {
                     </div>
                   )}
                 </div>
+              </div>
+
+              <div className={classes.buttonGrid}>
+                <Button
+                  onClick={() => handleFractionalInput(1, 4)}
+                  size="sm"
+                  className="text-medium font-medium bg-transparent border rounded-full hover:bg-primary border-low-emphesis text-secondary whitespace-nowrap"
+                >
+                  {i18n._(t`25%`)}
+                </Button>
+
+                <Button
+                  onClick={() => handleFractionalInput(1, 2)}
+                  size="sm"
+                  className="text-medium font-medium bg-transparent border rounded-full hover:bg-primary border-low-emphesis text-secondary whitespace-nowrap"
+                >
+                  {i18n._(t`50%`)}
+                </Button>
+
+                <Button
+                  onClick={() => handleFractionalInput(3, 4)}
+                  size="sm"
+                  className="text-medium font-medium bg-transparent border rounded-full hover:bg-primary border-low-emphesis text-secondary whitespace-nowrap"
+                >
+                  {i18n._(t`75%`)}
+                </Button>
+
+                <Button
+                  onClick={handleMaxInput}
+                  size="sm"
+                  className="text-medium font-medium bg-transparent border rounded-full hover:bg-primary border-low-emphesis text-secondary whitespace-nowrap"
+                >
+                  {i18n._(t`Max`)}
+                </Button>
               </div>
 
               {recipient !== null && !showWrap && (
