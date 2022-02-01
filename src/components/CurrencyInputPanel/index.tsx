@@ -21,6 +21,7 @@ interface CurrencyInputPanelProps {
   onUserInput?: (value: string) => void
   onMax?: () => void
   showMaxButton: boolean
+  onHalf?: () => void
   label?: string
   onCurrencySelect?: (currency: Currency) => void
   currency?: Currency | null
@@ -43,6 +44,7 @@ export default function CurrencyInputPanel({
   onUserInput,
   onMax,
   showMaxButton,
+  onHalf,
   label = 'Input',
   onCurrencySelect,
   currency,
@@ -59,6 +61,7 @@ export default function CurrencyInputPanel({
   locked = false,
   customBalanceText,
 }: CurrencyInputPanelProps) {
+  const showHalfButton = showMaxButton
   const { i18n } = useLingui()
   const [modalOpen, setModalOpen] = useState(false)
   const { account } = useActiveWeb3React()
@@ -147,6 +150,15 @@ export default function CurrencyInputPanel({
                   className="text-xs font-medium bg-transparent border rounded-full hover:bg-primary border-low-emphesis text-secondary whitespace-nowrap"
                 >
                   {i18n._(t`Max`)}
+                </Button>
+              )}
+              {showHalfButton && selectedCurrencyBalance && (
+                <Button
+                  onClick={onHalf}
+                  size="xs"
+                  className="text-xs font-medium bg-transparent border rounded-full hover:bg-primary border-low-emphesis text-secondary whitespace-nowrap"
+                >
+                  {i18n._(t`50%`)}
                 </Button>
               )}
               <Input.Numeric
