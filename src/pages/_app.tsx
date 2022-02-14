@@ -29,6 +29,7 @@ import { nanoid } from '@reduxjs/toolkit'
 import { remoteLoader } from '@lingui/remote-loader'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { ThemeProvider, useTheme } from '@mui/material'
 
 const Web3ProviderNetwork = dynamic(() => import('../components/Web3ProviderNetwork'), { ssr: false })
 
@@ -104,6 +105,8 @@ function MyApp({
   // Allows for conditionally setting a guard to be hoisted per page
   const Guard = Component.Guard || Fragment
 
+  const theme = useTheme()
+
   return (
     <Fragment>
       <Head>
@@ -153,32 +156,34 @@ function MyApp({
           content="HolyGrail - AMM platform built for Harmony that routes DFK in a simple interface!"
         />
       </Head>
-      <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
-        <Web3ReactProvider getLibrary={getLibrary}>
-          <Web3ProviderNetwork getLibrary={getLibrary}>
-            <Web3ReactManager>
-              <ReduxProvider store={store}>
-                <PersistGate loading={<Dots>loading</Dots>} persistor={persistor}>
-                  <>
-                    <ListsUpdater />
-                    <UserUpdater />
-                    <ApplicationUpdater />
-                    <TransactionUpdater />
-                    <MulticallUpdater />
-                  </>
-                  <Provider>
-                    <Layout>
-                      <Guard>
-                        <Component {...pageProps} />
-                      </Guard>
-                    </Layout>
-                  </Provider>
-                </PersistGate>
-              </ReduxProvider>
-            </Web3ReactManager>
-          </Web3ProviderNetwork>
-        </Web3ReactProvider>
-      </I18nProvider>
+      <ThemeProvider theme={theme}>
+        <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <Web3ProviderNetwork getLibrary={getLibrary}>
+              <Web3ReactManager>
+                <ReduxProvider store={store}>
+                  <PersistGate loading={<Dots>loading</Dots>} persistor={persistor}>
+                    <>
+                      <ListsUpdater />
+                      <UserUpdater />
+                      <ApplicationUpdater />
+                      <TransactionUpdater />
+                      <MulticallUpdater />
+                    </>
+                    <Provider>
+                      <Layout>
+                        <Guard>
+                          <Component {...pageProps} />
+                        </Guard>
+                      </Layout>
+                    </Provider>
+                  </PersistGate>
+                </ReduxProvider>
+              </Web3ReactManager>
+            </Web3ProviderNetwork>
+          </Web3ReactProvider>
+        </I18nProvider>
+      </ThemeProvider>
     </Fragment>
   )
 }
