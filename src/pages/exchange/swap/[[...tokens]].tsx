@@ -83,7 +83,7 @@ import { makeStyles } from '@mui/styles'
 const useLocalStyles = makeStyles(() => ({
   buttonGrid: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr 1fr',
+    gridAutoFlow: 'column',
     gridGap: 32,
     width: '100%',
   },
@@ -624,6 +624,14 @@ export default function Swap() {
                   className="text-medium font-medium bg-transparent border rounded-full hover:bg-primary border-low-emphesis text-secondary whitespace-nowrap"
                 >
                   {i18n._(t`75%`)}
+                </Button>
+
+                <Button
+                  onClick={() => handleFractionalInput(99, 100)}
+                  size="sm"
+                  className="text-medium font-medium bg-transparent border rounded-full hover:bg-primary border-low-emphesis text-secondary whitespace-nowrap"
+                >
+                  {i18n._(t`99%`)}
                 </Button>
 
                 <Button

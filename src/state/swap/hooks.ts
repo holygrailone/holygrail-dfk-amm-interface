@@ -216,7 +216,24 @@ export function useDerivedSwapInfo(doArcher = false): {
   // compare input balance to max input based on version
   const [balanceIn, amountIn] = [currencyBalances[Field.INPUT], v2Trade?.maximumAmountIn(allowedSlippage)]
 
-  if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
+  if (
+    amountIn &&
+    amountIn.currency.symbol === 'ONE' &&
+    amountIn.lessThan(
+      CurrencyAmount.fromRawAmount(amountIn.currency, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18)))
+    ) // don't ask me why this === 1 ONE
+  ) {
+    inputError = i18n._(
+      t`Leave at least 1 ONE for gas${
+        balanceIn &&
+        balanceIn.lessThan(
+          CurrencyAmount.fromRawAmount(amountIn.currency, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18)))
+        )
+          ? ' - get more ONE before attempting to swap'
+          : ''
+      }`
+    )
+  } else if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
     inputError = i18n._(t`Insufficient ${amountIn.currency.symbol} balance`)
   }
 
