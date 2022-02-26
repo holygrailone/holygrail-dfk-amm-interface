@@ -219,9 +219,10 @@ export function useDerivedSwapInfo(doArcher = false): {
   if (
     amountIn &&
     amountIn.currency.symbol === 'ONE' &&
-    amountIn.lessThan(
-      CurrencyAmount.fromRawAmount(amountIn.currency, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18)))
-    ) // don't ask me why this === 1 ONE
+    balanceIn &&
+    balanceIn
+      .subtract(amountIn)
+      .lessThan(CurrencyAmount.fromRawAmount(amountIn.currency, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18)))) // don't ask me why this === 1 ONE
   ) {
     inputError = i18n._(
       t`Leave at least 1 ONE for gas${
