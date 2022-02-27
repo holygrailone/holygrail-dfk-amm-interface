@@ -224,16 +224,16 @@ export function useDerivedSwapInfo(doArcher = false): {
       .subtract(amountIn)
       .lessThan(CurrencyAmount.fromRawAmount(amountIn.currency, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18)))) // don't ask me why this === 1 ONE
   ) {
-    inputError = i18n._(
-      t`Leave at least 1 ONE for gas${
-        balanceIn &&
-        balanceIn.lessThan(
-          CurrencyAmount.fromRawAmount(amountIn.currency, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18)))
-        )
-          ? ' - get more ONE before attempting to swap'
-          : ''
-      }`
-    )
+    if (
+      balanceIn &&
+      balanceIn.lessThan(
+        CurrencyAmount.fromRawAmount(amountIn.currency, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18)))
+      )
+    ) {
+      inputError = i18n._(t`Leave at least 1 ONE for gas - get more ONE before attempting to swap`)
+    } else {
+      inputError = i18n._(t`Leave at least 1 ONE for gas`)
+    }
   } else if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
     inputError = i18n._(t`Insufficient ${amountIn.currency.symbol} balance`)
   }
